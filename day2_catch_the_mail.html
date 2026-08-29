@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Day 2 — Incoming Mail</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600&display=swap');
+*{box-sizing:border-box}body{margin:0;min-height:100vh;background:#fbf7f2;color:#302b2b;font-family:Inter,sans-serif;overflow:hidden}
+.bg{position:fixed;inset:0;overflow:hidden;pointer-events:none}.glow{position:absolute;width:300px;height:300px;border-radius:50%;filter:blur(55px);opacity:.42}.g1{top:-100px;left:-80px;background:#f0d2cb}.g2{bottom:-120px;right:-80px;background:#d9d4eb}
+.card{position:relative;z-index:2;width:min(92vw,560px);height:88vh;margin:6vh auto;padding:30px 22px;display:flex;align-items:center;justify-content:center;text-align:center;background:rgba(255,255,255,.62);border:1px solid rgba(255,255,255,.85);border-radius:30px;box-shadow:0 24px 70px rgba(75,60,60,.12);backdrop-filter:blur(12px)}
+.screen{width:100%;animation:in .5s ease}@keyframes in{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.day{font-size:11px;letter-spacing:.22em;text-transform:uppercase;opacity:.52;margin-bottom:18px}h1,h2{font-family:"DM Serif Display",serif;font-weight:400;margin:0}h1{font-size:clamp(42px,10vw,66px);line-height:1.02}.sub{font-size:15px;line-height:1.8;opacity:.75;max-width:410px;margin:18px auto 10px}.hint{font-size:10px;letter-spacing:.13em;text-transform:uppercase;opacity:.45;margin-bottom:8px}
+.mail-area{position:relative;width:min(100%,390px);height:370px;margin:auto;overflow:hidden;border-radius:25px}
+.mail{position:absolute;width:74px;height:56px;border-radius:7px;background:#eee1d2;border:1px solid rgba(70,50,40,.1);box-shadow:0 8px 16px rgba(60,45,45,.1);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:24px;transition:transform .18s,opacity .3s;animation:drift 3s ease-in-out infinite}
+.mail:before{content:"";position:absolute;inset:0;clip-path:polygon(0 0,50% 52%,100% 0,100% 100%,0 100%);border-radius:7px;background:#e4d3c0;opacity:.9}.mail span{position:relative;z-index:2}.mail:hover{transform:scale(1.08) rotate(-2deg)}.mail.wrong{animation:wrong .3s ease;}.mail.found{transform:scale(1.35);opacity:0;pointer-events:none}
+@keyframes drift{0%,100%{margin-top:0;transform:rotate(-2deg)}50%{margin-top:-12px;transform:rotate(3deg)}}@keyframes wrong{25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
+.m1{left:7%;top:10%;animation-delay:.1s}.m2{left:39%;top:4%;animation-delay:.7s}.m3{right:6%;top:18%;animation-delay:1.1s}.m4{left:18%;top:48%;animation-delay:1.5s}.m5{right:20%;top:48%;animation-delay:2s}.m6{left:45%;bottom:4%;animation-delay:.5s}
+.status{font-size:11px;min-height:18px;opacity:.55;margin-top:-2px}.after{display:none}.after.show{display:block;animation:in .65s ease}.after h2{font-size:clamp(38px,9vw,54px);margin-bottom:12px}.note{font-size:15px;line-height:1.85;opacity:.78;max-width:400px;margin:0 auto 18px}.small{font-size:11px;line-height:1.7;opacity:.5}
+.progress{position:absolute;bottom:22px;left:28px;right:28px}.line{height:3px;background:rgba(48,43,43,.09);border-radius:99px;overflow:hidden}.fill{height:100%;width:20%;background:#302b2b}.labels{display:flex;justify-content:space-between;margin-top:7px;font-size:8px;letter-spacing:.12em;text-transform:uppercase;opacity:.42}
+@media(max-width:420px){.card{height:91vh;margin:4.5vh auto}.mail-area{height:350px}.mail{width:64px;height:50px}}
+</style>
+</head>
+<body>
+<div class="bg"><div class="glow g1"></div><div class="glow g2"></div></div>
+<main class="card">
+<div class="screen" id="game">
+<div class="day">Day 02 · August 29</div>
+<h1>Incoming mail.</h1>
+<p class="sub">Apparently today's message doesn't want to be found that easily.</p>
+<p class="hint">Catch the correct envelope</p>
+<div class="mail-area">
+<div class="mail m1" onclick="wrong(this)"><span>✉</span></div>
+<div class="mail m2" onclick="wrong(this)"><span>✉</span></div>
+<div class="mail m3" onclick="wrong(this)"><span>✉</span></div>
+<div class="mail m4" onclick="wrong(this)"><span>✉</span></div>
+<div class="mail m5" onclick="right(this)"><span>✉</span></div>
+<div class="mail m6" onclick="wrong(this)"><span>✉</span></div>
+</div>
+<div class="status" id="status">One of these has today's message. 👀</div>
+</div>
+
+<div class="screen after" id="result">
+<div class="day">Day 02 · Complete ✓</div>
+<div style="font-size:48px;margin-bottom:10px">💌</div>
+<h2>You found it.</h2>
+<p class="note">Your birthday is getting closer.<br><br><strong>That's today's important information. :)</strong></p>
+<p class="small">Mission 02 complete ✓<br><br>8 days to go. Come back tomorrow.</p>
+</div>
+
+<div class="progress"><div class="line"><div class="fill"></div></div><div class="labels"><span>10 little surprises</span><span>Day 2 / 10</span></div></div>
+</main>
+<script>
+function wrong(el){
+ el.classList.remove('wrong');void el.offsetWidth;el.classList.add('wrong');
+ const messages=['Nope 😂','Nice try.','Wrong department.','Definitely not this one.'];
+ document.getElementById('status').textContent=messages[Math.floor(Math.random()*messages.length)];
+}
+function right(el){
+ el.classList.add('found');
+ document.getElementById('status').textContent='Okayyy, you found it. 👀';
+ setTimeout(()=>{document.getElementById('game').style.display='none';document.getElementById('result').classList.add('show')},500);
+}
+</script>
+</body>
+</html>
