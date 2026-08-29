@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Day 1 — 10 Days Until You</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600&display=swap');
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;background:#fbf7f2;color:#302b2b;font-family:Inter,sans-serif;overflow:hidden}
+.bg{position:fixed;inset:0;overflow:hidden;pointer-events:none}
+.glow{position:absolute;width:300px;height:300px;border-radius:50%;filter:blur(55px);opacity:.42}
+.g1{top:-100px;left:-80px;background:#f0d2cb}.g2{bottom:-120px;right:-80px;background:#d9d4eb}
+.card{position:relative;z-index:2;width:min(92vw,560px);height:88vh;margin:6vh auto;padding:30px 22px;display:flex;align-items:center;justify-content:center;text-align:center;background:rgba(255,255,255,.62);border:1px solid rgba(255,255,255,.85);border-radius:30px;box-shadow:0 24px 70px rgba(75,60,60,.12);backdrop-filter:blur(12px)}
+.screen{width:100%;animation:in .55s ease}@keyframes in{from{opacity:0;transform:translateY(15px)}to{opacity:1;transform:none}}
+.day{font-size:11px;letter-spacing:.22em;text-transform:uppercase;opacity:.52;margin-bottom:18px}
+h1,h2{font-family:"DM Serif Display",serif;font-weight:400;margin:0}
+h1{font-size:clamp(42px,10vw,68px);line-height:1.02}
+.sub{font-size:15px;line-height:1.8;opacity:.75;max-width:400px;margin:18px auto 25px}
+.instructions{font-size:12px;letter-spacing:.08em;text-transform:uppercase;opacity:.48;margin-bottom:12px}
+.balloon-area{position:relative;width:min(100%,390px);height:350px;margin:auto}
+.balloon{position:absolute;width:60px;height:76px;border-radius:52% 52% 48% 48%;cursor:pointer;box-shadow:0 8px 14px rgba(60,45,45,.08);animation:float 3s ease-in-out infinite;transition:transform .2s,opacity .35s}
+.balloon:after{content:"";position:absolute;left:50%;top:75px;width:1px;height:75px;background:currentColor;opacity:.5}
+.balloon:before{content:"";position:absolute;bottom:-4px;left:50%;transform:translateX(-50%);width:8px;height:8px;background:currentColor;clip-path:polygon(0 0,100% 0,50% 100%)}
+.balloon:hover{transform:scale(1.07)}
+.balloon.popped{opacity:0;transform:scale(1.7);pointer-events:none}
+.b1{left:5%;top:18%;background:#e7b6ae;color:#c98f88;animation-delay:.1s}.b2{left:38%;top:4%;background:#c8c2df;color:#9c95bc;animation-delay:.6s}.b3{right:4%;top:18%;background:#e6d0a7;color:#c3a875;animation-delay:1.2s}.b4{left:20%;top:48%;background:#dbc0ca;color:#b896a4;animation-delay:1.8s}.b5{right:25%;top:50%;background:#e0c7b0;color:#b9987e;animation-delay:.4s}.b6{left:45%;bottom:2%;background:#d0d4df;color:#989eb0;animation-delay:1s}.b7{left:2%;bottom:5%;background:#e8c9c1;color:#c28e85;animation-delay:1.5s}.b8{right:3%;bottom:4%;background:#cbc5df;color:#9890ba;animation-delay:2s}.b9{left:28%;top:25%;background:#e5d5ba;color:#b99f72;animation-delay:2.2s}.b10{right:28%;top:27%;background:#dfc1c9;color:#b98f9f;animation-delay:2.7s}
+@keyframes float{0%,100%{margin-top:0;transform:rotate(-2deg)}50%{margin-top:-10px;transform:rotate(3deg)}}
+.progress{font-size:10px;letter-spacing:.14em;text-transform:uppercase;opacity:.45;margin-top:8px}
+.bar{height:3px;background:rgba(48,43,43,.09);border-radius:99px;margin:8px auto;width:min(100%,330px);overflow:hidden}.fill{height:100%;width:0;background:#302b2b;transition:width .35s}
+.result{display:none}.result.show{display:block;animation:in .7s ease}
+.result h2{font-size:clamp(52px,13vw,82px);margin-bottom:8px}
+.emoji{font-size:54px;margin-bottom:12px}
+.btn{border:0;background:#302b2b;color:#fff;padding:14px 24px;border-radius:999px;font:600 12px Inter;letter-spacing:.08em;cursor:pointer;margin-top:12px}
+.note{font-size:14px;line-height:1.8;opacity:.76;max-width:390px;margin:16px auto}
+.small{font-size:11px;line-height:1.7;opacity:.5}
+.preview{position:fixed;z-index:10;bottom:9px;right:9px;background:rgba(48,43,43,.85);color:#fff;padding:7px 9px;border-radius:10px;font-size:9px;opacity:.45}
+@media(max-width:420px){.card{height:91vh;margin:4.5vh auto}.balloon-area{height:335px}.balloon{width:53px;height:68px}.balloon:after{top:67px}.b1{left:2%}.b3{right:2%}.b7{left:0}.b8{right:0}}
+</style>
+</head>
+<body>
+<div class="bg"><div class="glow g1"></div><div class="glow g2"></div></div>
+<main class="card">
+<div class="screen" id="game">
+<div class="day">Day 01 · August 28</div>
+<h1>Okay, let's start.</h1>
+<p class="sub">There are <strong>10 balloons</strong> hiding something.<br>Pop them all. 🎈</p>
+<p class="instructions">Tap every balloon</p>
+<div class="balloon-area">
+<div class="balloon b1" onclick="pop(this)"></div><div class="balloon b2" onclick="pop(this)"></div>
+<div class="balloon b3" onclick="pop(this)"></div><div class="balloon b4" onclick="pop(this)"></div>
+<div class="balloon b5" onclick="pop(this)"></div><div class="balloon b6" onclick="pop(this)"></div>
+<div class="balloon b7" onclick="pop(this)"></div><div class="balloon b8" onclick="pop(this)"></div>
+<div class="balloon b9" onclick="pop(this)"></div><div class="balloon b10" onclick="pop(this)"></div>
+</div>
+<div class="progress"><span id="count">0</span> / 10 popped<div class="bar"><div class="fill" id="fill"></div></div></div>
+</div>
+
+<div class="screen result" id="result">
+<div class="day">Day 01 · Complete ✓</div>
+<div class="emoji">🎈✨</div>
+<h2>10 days.</h2>
+<p class="note">Yep. You have officially been enrolled in a completely unnecessary <strong>10-day birthday countdown.</strong> 😌</p>
+<p class="small">Today's mission: completed.<br>Come back tomorrow. 👀</p>
+</div>
+</main>
+<div class="preview">DAY 1 PREVIEW</div>
+<script>
+let popped=0;
+function pop(el){
+ if(el.classList.contains('popped'))return;
+ el.classList.add('popped');popped++;
+ document.getElementById('count').textContent=popped;
+ document.getElementById('fill').style.width=(popped*10)+'%';
+ if(popped===10)setTimeout(()=>{document.getElementById('game').style.display='none';document.getElementById('result').classList.add('show')},550);
+}
+</script>
+</body>
+</html>
