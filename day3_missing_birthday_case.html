@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Day 3 — The Case of the Missing Birthday</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600&display=swap');
+*{box-sizing:border-box}body{margin:0;min-height:100vh;background:#fbf7f2;color:#302b2b;font-family:Inter,sans-serif;overflow:hidden}
+.bg{position:fixed;inset:0;overflow:hidden;pointer-events:none}.glow{position:absolute;width:300px;height:300px;border-radius:50%;filter:blur(55px);opacity:.42}.g1{top:-100px;left:-80px;background:#f0d2cb}.g2{bottom:-120px;right:-80px;background:#d9d4eb}
+.card{position:relative;z-index:2;width:min(92vw,560px);height:88vh;margin:6vh auto;padding:30px 22px 75px;display:flex;align-items:center;justify-content:center;text-align:center;background:rgba(255,255,255,.64);border:1px solid rgba(255,255,255,.85);border-radius:30px;box-shadow:0 24px 70px rgba(75,60,60,.12);backdrop-filter:blur(12px)}
+.screen{width:100%;animation:in .5s ease}@keyframes in{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.day{font-size:11px;letter-spacing:.22em;text-transform:uppercase;opacity:.52;margin-bottom:16px}h1,h2{font-family:"DM Serif Display",serif;font-weight:400;margin:0}h1{font-size:clamp(39px,9.5vw,62px);line-height:1.02}.sub{font-size:15px;line-height:1.8;opacity:.76;max-width:420px;margin:16px auto 10px}.hint{font-size:10px;letter-spacing:.13em;text-transform:uppercase;opacity:.44;margin:8px 0}
+.case-area{position:relative;width:min(100%,410px);height:390px;margin:auto;border-radius:24px}.item{position:absolute;width:64px;height:64px;border-radius:20px;background:rgba(255,255,255,.82);border:1px solid rgba(70,50,40,.07);box-shadow:0 9px 18px rgba(60,45,45,.08);display:grid;place-items:center;font-size:34px;cursor:pointer;transition:transform .2s,box-shadow .2s,opacity .35s}.item:hover{transform:scale(1.1) rotate(-3deg);box-shadow:0 13px 25px rgba(60,45,45,.13)}.item.found{animation:unlock .65s ease;box-shadow:0 0 0 2px #302b2b inset,0 12px 25px rgba(60,45,45,.13)}@keyframes unlock{50%{transform:scale(1.25) rotate(4deg)}}.item.wrong{animation:shake .3s ease}@keyframes shake{25%{transform:translateX(-7px)}75%{transform:translateX(7px)}}
+.i1{left:8%;top:9%;animation:drift1 4s ease-in-out infinite}.i2{right:8%;top:6%;animation:drift2 4.5s ease-in-out infinite}.i3{left:28%;top:35%;animation:drift1 5s ease-in-out infinite}.i4{right:18%;top:43%;animation:drift2 4.2s ease-in-out infinite}.i5{left:48%;bottom:6%;animation:drift1 4.7s ease-in-out infinite}
+@keyframes drift1{50%{margin-top:-9px;transform:rotate(3deg)}}@keyframes drift2{50%{margin-top:8px;transform:rotate(-3deg)}}
+.status{height:24px;font-size:11px;opacity:.55;margin-top:-4px}.result{display:none}.result.show{display:block;animation:in .7s ease}.result .emoji{font-size:50px;margin-bottom:10px}.result h2{font-size:clamp(42px,10vw,58px);margin-bottom:12px}.note{font-size:15px;line-height:1.85;opacity:.77;max-width:400px;margin:0 auto 18px}.small{font-size:11px;line-height:1.7;opacity:.5}
+.progress{position:absolute;bottom:22px;left:28px;right:28px}.line{height:3px;background:rgba(48,43,43,.09);border-radius:99px;overflow:hidden}.fill{height:100%;width:30%;background:#302b2b}.labels{display:flex;justify-content:space-between;margin-top:7px;font-size:8px;letter-spacing:.12em;text-transform:uppercase;opacity:.42}
+@media(max-width:420px){.card{height:91vh;margin:4.5vh auto;padding-left:14px;padding-right:14px}.case-area{height:370px}.item{width:58px;height:58px;font-size:30px}.i1{left:3%}.i2{right:3%}.i3{left:25%}.i4{right:13%}.i5{left:45%}}
+</style>
+</head>
+<body>
+<div class="bg"><div class="glow g1"></div><div class="glow g2"></div></div>
+<main class="card">
+<div class="screen" id="game">
+<div class="day">Day 03 · August 30</div>
+<h1>The Case of the<br>Missing Birthday.</h1>
+<p class="sub">Something is missing.<br>I've hidden <strong>one important thing</strong> somewhere on this page.</p>
+<div class="hint">Find it. 👀</div>
+<div class="case-area">
+<button class="item i1" onclick="wrong(this,'Just a balloon. Move along. 🎈')">🎈</button>
+<button class="item i2" onclick="wrong(this,'Not the answer. Definitely the solution to most problems though !')">☕</button>
+<button class="item i3" onclick="wrong(this,'Not today. 🎁')">🎁</button>
+<button class="item i4" onclick="wrong(this,'Ooooh… interesting choice')">⭐</button>
+<button class="item i5" onclick="right(this)">🔑</button>
+</div>
+<div class="status" id="status">Detective mode: ON.</div>
+</div>
+<div class="screen result" id="result">
+<div class="day">Day 03 · Case Closed ✓</div>
+<div class="emoji">🔓🕵🏻</div>
+<h2>You found the key. 🔓</h2>
+<p class="note"><strong>Today's important information:</strong><br><br><strong>Some things are better unlocked than explained. 👀</strong><br><br>You're one day closer to finding out what's next. :)</p>
+<p class="small"><strong>Mission 03 complete ✓</strong><br><br><strong>Today's little wish:</strong><br>May you always find the right keys — literally and otherwise. :)<br><br>7 days to go. Come back tomorrow.</p>
+</div>
+<div class="progress"><div class="line"><div class="fill"></div></div><div class="labels"><span>10 little surprises</span><span>Day 3 / 10</span></div></div>
+</main>
+<script>
+function wrong(el,msg){el.classList.remove('wrong');void el.offsetWidth;el.classList.add('wrong');document.getElementById('status').textContent=msg}
+function right(el){el.classList.add('found');document.getElementById('status').textContent='You found the key. 🔓';setTimeout(()=>{document.getElementById('game').style.display='none';document.getElementById('result').classList.add('show')},650)}
+</script>
+</body>
+</html>
