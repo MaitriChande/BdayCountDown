@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Day 4 — The Luck Machine</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;padding:20px;display:flex;align-items:center;justify-content:center;
+font-family:Arial,sans-serif;background:linear-gradient(135deg,#fff8ed,#fef3c7);color:#302720}
+.card{width:min(440px,100%);background:#fffdf9;border:1px solid #eadfce;border-radius:28px;
+padding:27px 20px 25px;text-align:center;box-shadow:0 18px 50px rgba(70,45,20,.12)}
+.day{font-size:12px;letter-spacing:3px;font-weight:700;opacity:.55}
+h1{font-size:29px;margin:10px 0 7px}.sub{font-size:15px;line-height:1.5;color:#75675e;margin:0 auto 20px;max-width:340px}
+.step{display:none}.step.active{display:block}
+.question{font-weight:700;font-size:17px;margin:12px 0 15px}
+.choices{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.choice{border:1px solid #e6d8c7;background:#fffaf3;border-radius:16px;padding:14px 5px;
+font-size:28px;cursor:pointer;transition:.18s;min-height:68px}
+.choice span{display:block;font-size:11px;margin-top:5px;color:#76695f}
+.choice:hover{transform:translateY(-2px);box-shadow:0 5px 14px rgba(80,50,20,.1)}
+.choice.selected{border:2px solid #b45309;background:#fff1d8;transform:translateY(-2px)}
+.next{width:100%;border:0;border-radius:15px;padding:14px;margin-top:17px;background:#d97706;
+color:#fff;font-weight:700;font-size:15px;cursor:pointer}
+.next:disabled{opacity:.45;cursor:default}
+.machine{display:none;background:#29221f;border-radius:22px;padding:17px 13px 20px;margin-top:18px;
+box-shadow:inset 0 0 0 2px #4b403a,0 10px 20px rgba(40,30,20,.15)}
+.reels{display:flex;gap:9px}.reel{flex:1;height:82px;background:#fffaf3;border-radius:14px;
+display:flex;align-items:center;justify-content:center;font-size:38px;box-shadow:inset 0 -5px 0 #eadfce}
+.loading{color:#d8c8bb;font-size:12px;margin-top:11px}
+.result{display:none;margin-top:21px}.result.show{display:block}
+.result h2{font-size:23px;margin:0 0 8px}.result p{font-size:15px;line-height:1.55;color:#5f5148;margin:7px 0}
+.wish{margin-top:16px;padding:15px;border-radius:16px;background:#fff4df;font-size:14px;line-height:1.5}
+.small{font-size:11px;color:#8b7c70;margin-top:16px}
+@media(max-width:360px){.choice{font-size:25px;padding:11px 3px}.choice span{font-size:10px}}
+</style>
+</head>
+<body>
+<div class="card">
+<div class="day">DAY 04</div>
+<h1>🎰 The Luck Machine</h1>
+<p class="sub">Let's see what you've got today. 🍀<br>Three choices. One final result. Don't overthink it. 👀</p>
+
+<div id="s1" class="step active">
+<div class="question">First, choose your lucky symbol.</div>
+<div class="choices">
+<button class="choice" data-group="symbol" data-value="🍀">🍀<span>Lucky</span></button>
+<button class="choice" data-group="symbol" data-value="⭐">⭐<span>Star</span></button>
+<button class="choice" data-group="symbol" data-value="🌙">🌙<span>Moon</span></button>
+<button class="choice" data-group="symbol" data-value="🔥">🔥<span>Fire</span></button>
+<button class="choice" data-group="symbol" data-value="🎲">🎲<span>Chance</span></button>
+<button class="choice" data-group="symbol" data-value="🪄">🪄<span>Magic</span></button>
+</div>
+<button class="next" id="n1" disabled>LOCK IT IN →</button>
+</div>
+
+<div id="s2" class="step">
+<div class="question">Now pick a number.</div>
+<div class="choices">
+<button class="choice" data-group="number" data-value="1">1️⃣</button>
+<button class="choice" data-group="number" data-value="2">2️⃣</button>
+<button class="choice" data-group="number" data-value="3">3️⃣</button>
+<button class="choice" data-group="number" data-value="4">4️⃣</button>
+<button class="choice" data-group="number" data-value="5">5️⃣</button>
+<button class="choice" data-group="number" data-value="6">6️⃣</button>
+</div>
+<button class="next" id="n2" disabled>ONE MORE →</button>
+</div>
+
+<div id="s3" class="step">
+<div class="question">Final choice. Left or right?</div>
+<div class="choices" style="grid-template-columns:1fr 1fr">
+<button class="choice" data-group="side" data-value="LEFT">⬅️<span>LEFT</span></button>
+<button class="choice" data-group="side" data-value="RIGHT">➡️<span>RIGHT</span></button>
+</div>
+<button class="next" id="n3" disabled>REVEAL MY LUCK 🎰</button>
+</div>
+
+<div class="machine" id="machine">
+<div class="reels"><div class="reel" id="r1">🍀</div><div class="reel" id="r2">⭐</div><div class="reel" id="r3">✨</div></div>
+<div class="loading" id="loading">Calculating your luck...</div>
+</div>
+
+<div class="result" id="result">
+<h2 id="title"></h2><p id="text"></p>
+<div class="wish"><strong>Today's little wish:</strong><br>May you always have a little extra luck on your side. 🍀</div>
+<button class="next" id="replay" style="margin-top:14px">PLAY AGAIN ↻</button>
+<div class="small">That's today's important information. :)</div>
+</div>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const data = { symbol: null, number: null, side: null };
+
+  const s1 = document.getElementById("s1");
+  const s2 = document.getElementById("s2");
+  const s3 = document.getElementById("s3");
+  const n1 = document.getElementById("n1");
+  const n2 = document.getElementById("n2");
+  const n3 = document.getElementById("n3");
+  const machine = document.getElementById("machine");
+  const result = document.getElementById("result");
+  const title = document.getElementById("title");
+  const resultText = document.getElementById("text");
+  const loading = document.getElementById("loading");
+  const r1 = document.getElementById("r1");
+  const r2 = document.getElementById("r2");
+  const r3 = document.getElementById("r3");
+
+  // Every choice button records the selection and enables its next button.
+  document.querySelectorAll(".choice").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      const group = btn.getAttribute("data-group");
+      const value = btn.getAttribute("data-value");
+
+      document.querySelectorAll('.choice[data-group="' + group + '"]')
+        .forEach(function (x) { x.classList.remove("selected"); });
+
+      btn.classList.add("selected");
+      data[group] = value;
+
+      if (group === "symbol") n1.disabled = false;
+      if (group === "number") n2.disabled = false;
+      if (group === "side") n3.disabled = false;
+    });
+  });
+
+  n1.addEventListener("click", function () {
+    if (!data.symbol) return;
+    s1.classList.remove("active");
+    s2.classList.add("active");
+  });
+
+  n2.addEventListener("click", function () {
+    if (!data.number) return;
+    s2.classList.remove("active");
+    s3.classList.add("active");
+  });
+
+  n3.addEventListener("click", function () {
+    if (!data.side) return;
+
+    s3.classList.remove("active");
+    machine.style.display = "block";
+    n3.disabled = true;
+
+    const icons = ["🍀","⭐","🌙","🔥","🎲","🪄","✨","🎁","☕"];
+    let count = 0;
+
+    const timer = setInterval(function () {
+      r1.textContent = icons[Math.floor(Math.random() * icons.length)];
+      r2.textContent = icons[Math.floor(Math.random() * icons.length)];
+      r3.textContent = icons[Math.floor(Math.random() * icons.length)];
+
+      count++;
+
+      if (count >= 22) {
+        clearInterval(timer);
+
+        // Every combination gets its own result.
+        const symbolMessages = {
+          "🍀": ["The Classic Lucky Pick. 🍀", "You went straight for luck. Bold? No. Effective? We'll see. 😂"],
+          "⭐": ["Main Character Energy. ⭐", "You picked the star. Apparently subtlety wasn't on the menu today."],
+          "🌙": ["Quietly Lucky. 🌙", "A slightly mysterious choice. The machine approves. 👀"],
+          "🔥": ["Chaos Detected. 🔥", "You chose fire. Let's just hope the luck machine can handle you. 😂"],
+          "🎲": ["Risk Taker. 🎲", "You literally chose chance. At least you're committed to the theme."],
+          "🪄": ["Wildcard Energy. 🪄", "Interesting. You clearly don't believe in predictable outcomes."]
+        };
+
+        const numberMessages = {
+          "1": "You trusted your first instinct.",
+          "2": "You kept it simple.",
+          "3": "A surprisingly confident choice.",
+          "4": "You went for the middle ground.",
+          "5": "You were clearly feeling lucky.",
+          "6": "You picked the lucky number. Of course you did. 👀"
+        };
+
+        const sideMessages = {
+          "LEFT": "And then you went LEFT. Interesting.",
+          "RIGHT": "And then you went RIGHT. Very confident. 😌"
+        };
+
+        const comboIndex = (
+          Object.keys(symbolMessages).indexOf(data.symbol) * 12 +
+          (parseInt(data.number, 10) - 1) * 2 +
+          (data.side === "RIGHT" ? 1 : 0)
+        );
+
+        const endings = [
+          ["Luck Level: Quietly Promising. 🍀", "Your choices say: trust the process and don't overthink it."],
+          ["Luck Level: Looking Good. ✨", "Something tells me this was a better choice than you expected."],
+          ["Luck Level: Suspiciously Good. 👀", "The machine has absolutely no explanation for this one."],
+          ["Luck Level: Main Character Approved. 😌", "That combination has a little too much confidence behind it."],
+          ["Luck Level: Chaotic Good. 😂", "Not the most predictable route, but somehow it works."],
+          ["Luck Level: Very Interesting. 🔮", "The machine would like to keep this result confidential."]
+        ];
+
+        const ending = endings[comboIndex % endings.length];
+        const sm = symbolMessages[data.symbol];
+
+        title.textContent = ending[0];
+        resultText.innerHTML =
+          "<strong>" + sm[0] + "</strong><br>" +
+          sm[1] + "<br><br>" +
+          numberMessages[data.number] + "<br>" +
+          sideMessages[data.side] + "<br><br>" +
+          "<strong>" + ending[1] + "</strong>";
+        loading.textContent = "Result locked in.";
+        result.classList.add("show");
+      }
+    }, 85);
+  });
+});
+
+  document.getElementById("replay").addEventListener("click", function () {
+    data.symbol = null;
+    data.number = null;
+    data.side = null;
+
+    document.querySelectorAll(".choice").forEach(function (x) {
+      x.classList.remove("selected");
+    });
+
+    n1.disabled = true;
+    n2.disabled = true;
+    n3.disabled = true;
+
+    result.classList.remove("show");
+    machine.style.display = "none";
+
+    s2.classList.remove("active");
+    s3.classList.remove("active");
+    s1.classList.add("active");
+
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  });
+
+</script>
+</body>
+</html>
