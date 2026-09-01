@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Day 6 — What Are The Odds?</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;padding:20px;display:flex;align-items:center;justify-content:center;
+font-family:Arial,sans-serif;background:linear-gradient(135deg,#f8f4ff,#fff8ed);color:#302720}
+.card{width:min(440px,100%);background:#fffdf9;border:1px solid #eadfce;border-radius:28px;padding:28px 20px;
+text-align:center;box-shadow:0 18px 50px rgba(70,45,20,.12)}
+.day{font-size:12px;letter-spacing:3px;font-weight:700;opacity:.55}
+h1{font-size:29px;margin:10px 0 8px}
+.sub{font-size:15px;line-height:1.55;color:#75675e;margin:0 auto 22px;max-width:340px}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;max-width:330px;margin:auto}
+.cardbtn{height:108px;border:0;border-radius:17px;background:#302720;color:white;font-size:32px;cursor:pointer;
+box-shadow:0 7px 0 #1f1915;transition:.2s}
+.cardbtn span{display:block;font-size:11px;margin-top:7px;opacity:.65;letter-spacing:1px}
+.cardbtn:active{transform:translateY(5px);box-shadow:0 2px 0 #1f1915}
+.cardbtn:disabled{cursor:default}
+.message{display:none;margin-top:22px;animation:up .45s ease}
+.message.show{display:block}
+.message h2{font-size:22px;margin:0 0 9px}
+.message p{font-size:15px;line-height:1.55;color:#5f5148;margin:0}
+.continue{width:100%;border:0;border-radius:15px;padding:14px;margin-top:17px;background:#d97706;color:#fff;
+font-weight:700;font-size:15px;cursor:pointer}
+.final{display:none;margin-top:22px;animation:up .45s ease}
+.final.show{display:block}
+.icon{font-size:44px}.final h2{font-size:23px;margin:8px 0}.final p{font-size:15px;line-height:1.55;color:#5f5148}
+.wish{margin-top:16px;padding:15px;border-radius:16px;background:#fff4df;font-size:14px;line-height:1.5}
+.replay{width:100%;border:0;border-radius:15px;padding:14px;margin-top:15px;background:#302720;color:white;font-weight:700;font-size:14px}
+.small{font-size:11px;color:#8b7c70;margin-top:16px}
+@keyframes up{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+<div class="card">
+<div class="day">DAY 06</div>
+<h1>🎲 What Are The Odds?</h1>
+<p class="sub" id="intro">Six cards. One choice.<br>But here's the catch… 👀<br><strong>You don't get to keep your choice.</strong></p>
+
+<div class="cards" id="cards">
+<button class="cardbtn" data-card="1">🃏<span>01</span></button>
+<button class="cardbtn" data-card="2">🃏<span>02</span></button>
+<button class="cardbtn" data-card="3">🃏<span>03</span></button>
+<button class="cardbtn" data-card="4">🃏<span>04</span></button>
+<button class="cardbtn" data-card="5">🃏<span>05</span></button>
+<button class="cardbtn" data-card="6">🃏<span>06</span></button>
+</div>
+
+<div class="message" id="message">
+<h2 id="msgTitle"></h2>
+<p id="msgText"></p>
+<button class="continue" id="continueBtn">OKAY… NEXT 👀</button>
+</div>
+
+<div class="final" id="final">
+<div class="icon">🍀</div>
+<h2>Well, well, well… 👀</h2>
+<p id="finalText"></p>
+<div class="wish"><strong>Today's little wish:</strong><br>May the unexpected turn out to be exactly what you needed. :)</div>
+<button class="replay" id="replay">PLAY AGAIN ↻</button>
+<div class="small">That's today's important information. :)</div>
+</div>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded",function(){
+const cards=document.getElementById("cards"), message=document.getElementById("message"),
+msgTitle=document.getElementById("msgTitle"),msgText=document.getElementById("msgText"),
+continueBtn=document.getElementById("continueBtn"),final=document.getElementById("final"),
+finalText=document.getElementById("finalText"),intro=document.getElementById("intro"),
+replay=document.getElementById("replay"),buttons=[...document.querySelectorAll(".cardbtn")];
+
+let current=0, path=[];
+
+// Each pick has a different reaction. The game deliberately redirects the player
+// toward card 6 after a few choices, so reaching 6 feels like a reveal.
+const reactions={
+1:["Interesting choice. 👀","Let's see where that takes you."],
+2:["Hmm. Okay. 😌","Not the one we're looking for… keep going."],
+3:["Bold. 😂","You're getting warmer. Maybe."],
+4:["Very interesting. 👀","The odds are getting suspicious."],
+5:["Almost there…","One more choice. Trust your instincts."],
+6:["Wait…","You found the one worth finding. ✨"]
+};
+
+function showChoice(n){
+path.push(n); current++;
+buttons.forEach(b=>b.disabled=true);
+const d=reactions[n];
+msgTitle.textContent=d[0];msgText.textContent=d[1];
+message.classList.add("show");
+if(n===6){
+continueBtn.textContent="SHOW ME MY LUCK 🍀";
+} else {
+continueBtn.textContent="OKAY… NEXT 👀";
+}
+}
+
+buttons.forEach(btn=>btn.addEventListener("click",function(){
+showChoice(Number(btn.dataset.card));
+}));
+
+continueBtn.addEventListener("click",function(){
+message.classList.remove("show");
+
+if(path[path.length-1]===6){
+cards.style.display="none";
+final.classList.add("show");
+finalText.innerHTML="Out of all six cards, you somehow ended up here.<br><br><strong>Card 6.</strong> Your lucky number.<br><br>Coincidence? I'll let you decide. 👀";
+return;
+}
+
+// Make the next choices increasingly point toward 6, but let him choose.
+const available=buttons.filter(b=>!b.disabled);
+buttons.forEach(b=>b.disabled=false);
+
+// Shuffle card positions so the route isn't predictable.
+const shuffled=[...buttons].sort(()=>Math.random()-.5);
+shuffled.forEach(b=>cards.appendChild(b));
+
+intro.innerHTML=current===1
+?"Okay… that was just the first choice. 👀<br><strong>Pick again.</strong>"
+:"You know the drill now. 😂<br><strong>Pick again.</strong>";
+});
+
+replay.addEventListener("click",function(){
+current=0;path=[];
+final.classList.remove("show");message.classList.remove("show");cards.style.display="grid";
+buttons.forEach(b=>{b.disabled=false;b.classList.remove("selected")});
+intro.innerHTML="Six cards. One choice.<br>But here's the catch… 👀<br><strong>You don't get to keep your choice.</strong>";
+window.scrollTo({top:0,behavior:"smooth"});
+});
+});
+</script>
+</body>
+</html>
