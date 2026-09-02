@@ -1,0 +1,44 @@
+<!doctype html><html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Day 7 — Open When...</title>
+<style>
+*{box-sizing:border-box}body{margin:0;min-height:100vh;padding:18px;display:flex;align-items:center;justify-content:center;font-family:Georgia,serif;background:linear-gradient(135deg,#fff7f0,#f7f1ff);color:#332b2b}
+.wrap{width:min(450px,100%);background:#fffdfb;border:1px solid #eadfd8;border-radius:28px;padding:27px 18px 24px;box-shadow:0 18px 55px rgba(70,45,35,.13);text-align:center}
+.day{font:700 11px Arial;letter-spacing:3px;opacity:.5}h1{font-size:30px;margin:9px 0 7px}.intro{font-size:15px;line-height:1.55;color:#766967;margin:0 auto 20px}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}.env{border:1px solid #e6d8d0;background:#fff7f2;border-radius:18px;padding:15px 10px 13px;cursor:pointer;min-height:105px;transition:.2s;box-shadow:0 5px 12px rgba(70,45,35,.06)}
+.env:hover{transform:translateY(-3px)}.env:active{transform:scale(.97)}.emoji{font-size:31px}.when{font:700 12px Arial;letter-spacing:.4px;margin-top:7px}.hint{font:11px Arial;color:#9a8982;margin-top:5px}
+.note{display:none;margin-top:20px;padding:22px 17px;border-radius:20px;background:#fff6e9;border:1px solid #ecdcc5}.note.show{display:block}.noteIcon{font-size:38px}.note h2{font-size:21px;margin:8px 0}.note p{font-size:16px;line-height:1.6;margin:0;color:#5d514d}
+.close{margin-top:16px;border:0;border-radius:14px;padding:12px 18px;background:#332b2b;color:white;font:700 13px Arial;cursor:pointer}.footer{font:11px Arial;color:#9a8982;margin-top:17px}
+@media(max-width:360px){.grid{grid-template-columns:1fr}}
+
+.countdown-final{margin:24px auto 0;padding:13px 12px 12px;border-radius:16px;background:#fff7f2;border:1px solid #ead8d8;text-align:center}
+.countdown-title{font:700 14px Arial;letter-spacing:.2px}
+.countdown-sub{font:11px Arial;color:#8e7d78;margin-top:5px}
+</style></head><body><div class="wrap">
+<div class="day">DAY 07</div><h1>💌 Open When…</h1>
+<p class="intro">A few little notes, for a few little moments.<br><strong>Open whichever one feels right. 👀</strong></p>
+<div class="grid" id="grid">
+<button class="env" data-id="1"><div class="emoji">😊</div><div class="when">OPEN WHEN YOU'RE HAPPY</div><div class="hint">for obvious reasons</div></button>
+<button class="env" data-id="2"><div class="emoji">🥱</div><div class="when">OPEN WHEN YOU'RE BORED</div><div class="hint">this should help</div></button>
+<button class="env" data-id="3"><div class="emoji">🌧️</div><div class="when">OPEN WHEN YOU NEED A PICK-ME-UP</div><div class="hint">a tiny reminder</div></button>
+<button class="env" data-id="4"><div class="emoji">🍀</div><div class="when">OPEN WHEN YOU NEED SOME LUCK</div><div class="hint">you know the drill</div></button>
+<button class="env" data-id="5"><div class="emoji">😂</div><div class="when">OPEN WHEN YOU NEED A LAUGH</div><div class="hint">no promises</div></button>
+<button class="env" data-id="6"><div class="emoji">🌙</div><div class="when">OPEN WHEN YOU CAN'T SLEEP</div><div class="hint">late-night thoughts</div></button>
+<button class="env" data-id="7"><div class="emoji">👀</div><div class="when">OPEN WHEN YOU'RE CURIOUS</div><div class="hint">probably the dangerous one</div></button>
+</div>
+<div class="note" id="note"><div class="noteIcon" id="noteIcon"></div><h2 id="noteTitle"></h2><p id="noteText"></p><button class="close" id="close">BACK TO THE ENVELOPES 💌</button></div>
+<section class="countdown-final">
+  <div class="countdown-title">🎉 5 DAYS TO GO!!! WOHOOOOOO!!! 🥳</div>
+  <div class="countdown-sub">Okayyy, now we're getting dangerously close… 👀</div>
+</section>
+<div class="footer">You can open them all. I won't tell. :)</div>
+</div>
+<script>
+const notes={1:["😊","For when you're happy","Good. Stay there a little longer. You deserve all the moments that make you smile. :)"],2:["🥱","For when you're bored","Congratulations, you've found something to do. 😂 Now continue with your very important birthday countdown duties."],3:["🌧️","For when you need a pick-me-up","Whatever is bothering you right now won't last forever. Be a little kinder to yourself today. 🤍"],4:["🍀","For when you need some luck","A tiny reminder: sometimes you don't need everything to go perfectly. You just need one good thing to go your way. 🍀"],5:["😂","For when you need a laugh","I was going to write something profound here… but honestly, you're reading a birthday countdown made on the internet. 😂"],6:["🌙","For when you can't sleep","Put the phone down. Take a breath. Tomorrow is another day, and you've got plenty of good things still waiting for you. 🌙"],7:["👀","For when you're curious","Okay, fine. You made it this far. 👀 Some things are better discovered than explained. You'll see."]};
+const grid=document.getElementById("grid"),note=document.getElementById("note"),icon=document.getElementById("noteIcon"),title=document.getElementById("noteTitle"),text=document.getElementById("noteText");
+document.querySelectorAll(".env").forEach(b=>b.onclick=()=>{let d=notes[b.dataset.id];icon.textContent=d[0];title.textContent=d[1];text.textContent=d[2];grid.style.display="none";note.classList.add("show")});
+document.getElementById("close").onclick=()=>{note.classList.remove("show");grid.style.display="grid"};
+</script>
+
+
+</body></html>
