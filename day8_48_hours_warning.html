@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Day 8 — 48 Hours Warning</title>
+<style>
+*{box-sizing:border-box}body{margin:0;min-height:100vh;font-family:Arial,Helvetica,sans-serif;background:#f7f4ef;color:#272323;display:flex;justify-content:center;align-items:center;padding:18px}
+.page{width:min(620px,100%);background:#fffdf9;border:1px solid #ded8d0;border-radius:24px;box-shadow:0 14px 40px rgba(50,40,35,.1);overflow:hidden}
+.alert{background:#2c2828;color:#fff;padding:11px 16px;font-size:11px;font-weight:800;letter-spacing:1.4px;text-align:center}
+.content{padding:28px 22px 24px;text-align:center}.icon{font-size:46px;margin-bottom:8px}.eyebrow{font-size:11px;font-weight:800;letter-spacing:2px;color:#8a6c6c;margin-bottom:8px}
+h1{margin:0;font-size:clamp(28px,8vw,42px);line-height:1.05;letter-spacing:-1px}.intro{margin:12px auto 22px;max-width:470px;font-size:14px;line-height:1.6;color:#665e5e}
+.status{border:1px dashed #c9bcbc;border-radius:18px;padding:16px 14px;background:#faf7f4;margin-bottom:18px}.status-title{font-size:11px;font-weight:800;letter-spacing:1.4px;color:#8a6c6c;margin-bottom:8px}
+#timer{font-size:clamp(30px,9vw,46px);font-weight:900;letter-spacing:2px;font-variant-numeric:tabular-nums}.timer-label{font-size:11px;color:#817777;margin-top:4px}
+.checks{text-align:left;margin:18px 0}.check{display:flex;align-items:center;gap:12px;width:100%;border:1px solid #e4ded8;background:#fff;border-radius:14px;padding:13px 14px;margin:9px 0;cursor:pointer;transition:.2s;font-size:13px}.check:hover{transform:translateY(-1px)}.check.done{background:#f4eee9;border-color:#cdbdb7}
+.box{width:22px;height:22px;border:1.5px solid #9d8c8c;border-radius:7px;flex:0 0 22px;display:grid;place-items:center;font-size:14px}.check.done .box:after{content:"✓"}.check.done span:last-child{text-decoration:line-through;opacity:.62}
+button{border:0;border-radius:999px;background:#292525;color:#fff;padding:13px 24px;font-size:13px;font-weight:800;letter-spacing:.5px;cursor:pointer;transition:.2s}button:hover{transform:translateY(-1px)}button:disabled{opacity:.35;cursor:not-allowed;transform:none}
+.reveal{display:none;margin-top:20px;padding:20px 16px;border-radius:18px;background:#f8f1ee;border:1px solid #e5d8d3;animation:pop .35s ease}.reveal.show{display:block}.reveal h2{margin:0 0 8px;font-size:21px}.reveal p{margin:0;font-size:13px;line-height:1.65;color:#665d5d}.final{margin-top:15px;font-weight:900;font-size:15px}.footer{margin-top:22px;font-size:11px;color:#9a9090}
+@keyframes pop{from{opacity:0;transform:translateY(8px) scale(.98)}to{opacity:1;transform:translateY(0) scale(1)}}
+</style>
+</head>
+<body>
+<div class="page">
+<div class="alert">⚠️ BIRTHDAY EMERGENCY ALERT • DAY 8 • PRIORITY: VERY HIGH ⚠️</div>
+<div class="content">
+<div class="icon">⏳</div>
+<div class="eyebrow">OFFICIAL NOTICE</div>
+<h1>48 HOURS WARNING.</h1>
+<p class="intro">This is not a drill. A birthday is approaching at an alarming speed. Please remain calm and complete the required safety checks below.</p>
+<div class="status">
+<div class="status-title">TIME UNTIL BIRTHDAY</div>
+<div id="timer">48:00:00</div>
+<div class="timer-label">The clock is officially ticking. 👀</div>
+</div>
+<div class="checks">
+<div class="check" onclick="toggleCheck(this)"><div class="box"></div><span>Confirm that you are emotionally prepared for birthday attention.</span></div>
+<div class="check" onclick="toggleCheck(this)"><div class="box"></div><span>Confirm that you will cooperate with all birthday-related nonsense. 😂<small style="display:block;margin-top:4px;color:#9a8585;font-size:10px;">(which you already are 😌)</small></span></div>
+<div class="check" onclick="toggleCheck(this)"><div class="box"></div><span>Confirm that you are prepared to get “Happy Birthday” reels approximately 50 times. 😂</span></div>
+<div class="check" onclick="toggleCheck(this)"><div class="box"></div><span>Confirm that you are legally required to have a good birthday. ⚖️😂</span></div>
+</div>
+<button id="unlock" disabled onclick="revealMessage()">ACKNOWLEDGE EMERGENCY 🚨</button>
+<div class="reveal" id="reveal">
+<h2>Emergency successfully acknowledged. 😂</h2>
+<p>Good. That's all we needed from you.<br>From this point onwards, there is absolutely no escaping the birthday countdown.</p>
+<div class="final">🎉 2 DAYS TO GO!!! WOHOOOOOO!!! 🥳</div>
+</div>
+<div class="footer">System message: Please check back tomorrow. You know the drill. 👀</div>
+</div>
+</div>
+<script>
+const birthday=new Date(new Date().getFullYear(),8,6,0,0,0);
+function updateTimer(){let d=Math.max(0,birthday-new Date()),s=Math.floor(d/1000),h=Math.floor(s/3600),m=Math.floor((s%3600)/60),sec=s%60;document.getElementById("timer").textContent=String(h).padStart(2,"0")+":"+String(m).padStart(2,"0")+":"+String(sec).padStart(2,"0")}
+function toggleCheck(el){el.classList.toggle("done");document.getElementById("unlock").disabled=document.querySelectorAll(".check.done").length!==4}
+function revealMessage(){document.getElementById("reveal").classList.add("show");document.getElementById("unlock").style.display="none";document.getElementById("reveal").scrollIntoView({behavior:"smooth",block:"center"})}
+updateTimer();setInterval(updateTimer,1000);
+</script>
+</body>
+</html>
