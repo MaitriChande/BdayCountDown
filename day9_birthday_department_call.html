@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Incoming Call: Birthday Department</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:linear-gradient(160deg,#101826,#1d2940);color:white;font-family:Arial,sans-serif;min-height:100vh}
+.wrap{max-width:500px;margin:auto;padding:45px 18px;text-align:center}
+.phone{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:28px;padding:30px 20px;box-shadow:0 20px 60px rgba(0,0,0,.35)}
+.small{font-size:13px;opacity:.65;letter-spacing:1px}.avatar{width:90px;height:90px;margin:18px auto;border-radius:50%;background:#f2f3f5;color:#182033;display:flex;align-items:center;justify-content:center;font-size:42px}
+h1{font-size:27px;margin:10px 0 5px}.status{opacity:.7;margin-bottom:28px}
+button{width:100%;padding:15px;border:0;border-radius:14px;font-weight:800;font-size:16px;cursor:pointer;margin:7px 0}
+.answer{background:#b8f28b;color:#12200e}.decline{background:#ff7b7b;color:#270909}
+#conversation,#end{display:none;margin-top:20px;text-align:left}
+.msg{background:rgba(255,255,255,.09);padding:13px 15px;border-radius:14px;margin:9px 0;line-height:1.4}
+.choice{background:white;color:#182033}
+.center{text-align:center}.big{font-size:30px;font-weight:900;margin:15px 0}.pulse{animation:pulse 1.2s infinite}
+@keyframes pulse{50%{transform:scale(1.04)}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="phone">
+<div class="small">INCOMING CALL</div>
+<div class="avatar pulse">🎂</div>
+<h1>Birthday Department</h1>
+<div class="status" id="status">Calling you...</div>
+
+<div id="buttons">
+<button class="answer" onclick="answer()">📞 ANSWER CALL</button>
+<button class="decline" onclick="decline()">❌ DECLINE</button>
+</div>
+
+<div id="conversation">
+<div class="msg">📞 <b>Birthday Department:</b> Hello. Is this the person whose birthday is tomorrow?</div>
+<div class="msg">You have been contacted because your birthday is now officially too close to ignore. 😂</div>
+<div class="msg">We need one final confirmation from you.</div>
+<button class="choice" onclick="choose(1)">1️⃣ I accept the birthday attention 😌</button>
+<button class="choice" onclick="choose(2)">2️⃣ I will cooperate with birthday nonsense 😂</button>
+<button class="choice" onclick="choose(3)">3️⃣ I have accepted my fate 👀</button>
+</div>
+
+<div id="end" class="center">
+<div class="big">CALL ENDED 📞</div>
+<p id="result"></p>
+<p><b>1 DAY TO GO!!! 🎂🥳</b></p>
+<p>Birthday Department says: see you tomorrow. 👀</p>
+</div>
+</div>
+</div>
+<script>
+function answer(){
+ document.getElementById('buttons').style.display='none';
+ document.getElementById('status').textContent='Connected ✓';
+ document.getElementById('conversation').style.display='block';
+}
+function decline(){
+ document.getElementById('status').textContent='Nice try. 😌';
+ document.getElementById('buttons').innerHTML='<button class="answer" onclick="answer()">📞 OKAY, ANSWER IT</button>';
+}
+function choose(n){
+ document.getElementById('conversation').style.display='none';
+ document.getElementById('end').style.display='block';
+ let t=['','Excellent. Your cooperation has been noted. 😌','Good. That is the correct attitude. 😂','Perfect. Honestly, we expected this. 👀'][n];
+ document.getElementById('result').textContent=t;
+}
+</script>
+</body>
+</html>
