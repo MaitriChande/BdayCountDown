@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Today Is Your Day 🎂</title>
+<style>
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;background:#090811;color:#fff;font-family:Arial,Helvetica,sans-serif}
+section{min-height:100vh;padding:55px 20px;display:flex;align-items:center;justify-content:center;text-align:center;position:relative;overflow:hidden}
+.hero{background:radial-gradient(circle at 50% 35%,#38254d,#090811 68%)}
+.box{max-width:740px;width:100%;position:relative;z-index:2}
+.kicker,.label{font-size:11px;letter-spacing:3px;opacity:.5}
+.kicker{margin-bottom:25px}
+h1{font-size:clamp(52px,14vw,105px);line-height:.87;letter-spacing:-5px;margin:0;background:linear-gradient(90deg,#fff,#ffd9eb,#ded8ff,#fff);-webkit-background-clip:text;color:transparent}
+h2{font-size:clamp(34px,8vw,60px);line-height:1;margin:15px 0}
+p{line-height:1.7;opacity:.72}
+.date{font-size:18px;letter-spacing:3px;font-weight:bold;margin:28px 0 10px}
+.sub{opacity:.7;line-height:1.6}
+.btn{border:0;border-radius:16px;padding:16px 24px;margin-top:25px;font-weight:800;font-size:15px;cursor:pointer;background:#fff;color:#121018}
+.hint{font-size:11px;opacity:.4;margin-top:10px}
+.hidden{display:none}.show{animation:up .8s ease both}
+@keyframes up{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:none}}
+.timeline{display:flex;gap:7px;flex-wrap:wrap;justify-content:center;margin:30px 0}
+.day{border:1px solid #292633;background:#12111b;border-radius:13px;padding:11px 9px;min-width:54px;font-size:11px;cursor:pointer}
+.day b{display:block;font-size:18px;margin-bottom:5px}.day small{opacity:.5}
+.day.active{border-color:#aaa}
+#daynote{min-height:28px;opacity:.7;font-size:13px;margin-top:12px}
+.quote{font-size:21px;font-weight:600;line-height:1.5;margin:30px auto;padding:25px;border-left:2px solid #aaa;border-right:1px solid #555}
+.cards{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:28px}
+.card{padding:21px;min-height:145px;text-align:left;border:1px solid #292633;background:#12111b;border-radius:20px;cursor:pointer}
+.icon{font-size:27px;margin-bottom:12px}.card span{display:block;opacity:.45;font-size:12px;margin-top:7px}
+.note{display:none;opacity:.76;font-size:13px;line-height:1.5;margin-top:9px}.card.open .note{display:block}.card.open span{display:none}
+.letter{margin-top:28px;padding:30px 24px;text-align:left;border:1px solid #292633;background:#11101a;border-radius:24px;line-height:1.8}
+.letter p{opacity:.8}.letter .sign{text-align:right;opacity:.65}
+.wish{margin-top:25px;padding:32px 20px;border:1px solid #292633;background:#12111b;border-radius:25px}
+.wishtext{display:none;font-size:19px;line-height:1.6;margin-top:22px}
+.final{background:radial-gradient(circle at 50% 45%,#34223f)}
+.final h2{font-size:clamp(46px,11vw,88px)}
+.signature{font-size:13px;opacity:.5;margin-top:25px}
+.archive{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:25px}
+.archive div{border:1px solid #292633;background:#12111b;border-radius:16px;padding:18px 8px;font-size:12px}
+.archive b{display:block;font-size:23px;margin-bottom:7px}
+@media(max-width:520px){.cards{grid-template-columns:1fr}.archive{grid-template-columns:1fr 1fr}.day{min-width:47px;padding:9px 6px}}
+</style>
+</head>
+<body>
+
+<section class="hero">
+<div class="box">
+<div class="kicker">06 • 09 • 2026 / FINAL DAY</div>
+<h1>TODAY<br>IS YOUR<br>DAY.</h1>
+<div class="date">HAPPY BIRTHDAY 🎂</div>
+<div class="sub">No countdown. No “days to go.”<br>Because today, there is nothing left to wait for. ✨</div>
+<button class="btn" onclick="openAll()">✨ OPEN YOUR BIRTHDAY</button>
+<div class="hint">You've made it through all 9 days. 👀</div>
+</div>
+</section>
+
+<section class="hidden">
+<div class="box">
+<div class="label">THE FINAL CHAPTER</div>
+<h2>You made it. 🥳</h2>
+<p>Ten days. Ten lil countdowns. And somehow, we finally made it to the actual day.</p>
+<div class="quote">“Some birthdays are just dates.<br>Some deserve a whole countdown.” ✨</div>
+<p>So today isn't about the countdown anymore.<br><b>Today is simply about celebrating you.</b></p>
+</div>
+</section>
+
+<section class="hidden">
+<div class="box">
+<div class="label">THE COUNTDOWN, REWIND</div>
+<h2>Remember these? 👀</h2>
+<p>Tap on each number to see the countdown summary. 👀</p>
+<div class="timeline">
+<div class="day" onclick="note('You started with balloons. 🎈 A very innocent beginning.')"><b>1</b><small>🎈</small></div>
+<div class="day" onclick="note('Then came the mail. 📬 Things were already getting suspicious.')"><b>2</b><small>📬</small></div>
+<div class="day" onclick="note('You found the key. 🔑 Some things are better unlocked than explained.')"><b>3</b><small>🔑</small></div>
+<div class="day" onclick="note('A little luck was involved. 🍀 As it should be.')"><b>4</b><small>🍀</small></div>
+<div class="day" onclick="note('You made a wish. ✨ No further questions about what you wished for.')"><b>5</b><small>✨</small></div>
+<div class="day" onclick="note('You chose your odds. 🎲 And yes, Card 6 was suspicious. 😂')"><b>6</b><small>🎲</small></div>
+<div class="day" onclick="note('Open when… 💌 You opened more than you were probably supposed to. 😂')"><b>7</b><small>💌</small></div>
+<div class="day" onclick="note('48 HOURS WARNING. 🚨 Mandatory cooperation successfully obtained.')"><b>8</b><small>🚨</small></div>
+<div class="day" onclick="note('Birthday Eve. 🕵🏻 Classified information was released.')"><b>9</b><small>🕵🏻</small></div>
+<div class="day active" onclick="note('And now… today. 🎂 No more countdowns.')"><b>10</b><small>🎂</small></div>
+</div>
+<div id="daynote">Tap a day. 👀</div>
+<div class="quote">Ten days of nonsense.<br>One very special birthday.<br><br>And somehow… we made it here. 🤍</div>
+</div>
+</section>
+
+<section class="hidden">
+<div class="box">
+<div class="label">A FEW THINGS WORTH REMEMBERING</div>
+<h2>Because I know you. 👀</h2>
+<div class="cards">
+<div class="card" onclick="this.classList.toggle('open')"><div class="icon">🌟</div><b>Keep being you.</b><span>Tap to open</span><div class="note">The world already has enough people trying to be someone else. Keep your own weird, wonderful version. :)</div></div>
+<div class="card" onclick="this.classList.toggle('open')"><div class="icon">🚀</div><b>Go after it.</b><span>Tap to open</span><div class="note">The things you want won't always arrive at the perfect time. Sometimes you have to go meet them halfway.</div></div>
+<div class="card" onclick="this.classList.toggle('open')"><div class="icon">🤍</div><b>Give yourself grace.</b><span>Tap to open</span><div class="note">You don't have to have everything figured out. You're allowed to grow, change, pause and begin again.</div></div>
+<div class="card" onclick="this.classList.toggle('open')"><div class="icon">🥂</div><b>Make this year count.</b><span>Tap to open</span><div class="note">More laughs. More adventures. More “why not?” moments. More memories you'll be glad you made.</div></div>
+</div>
+</div>
+</section>
+
+<section class="hidden">
+<div class="box">
+<div class="label">AND BECAUSE THIS IS YOU…</div>
+<h2>A few things I hope you never lose. 🤌🏻</h2>
+<div class="cards">
+<div class="card" onclick="this.classList.toggle('open')"><div class="icon">😂</div><b>Komal mann insaan.</b><span>Tap to open</span><div class="note">The “Chaapli” version may be loud, chaotic and impossible to ignore… but somewhere underneath all that is genuinely a komal mann insaan. 😂🤍</div></div>
+<div class="card" onclick="this.classList.toggle('open')"><div class="icon">🎶</div><b>Those random moments.</b><span>Tap to open</span><div class="note">Especially the midnight singing, random photos, reels, and all the little random moments in between. 😂</div></div>
+<div class="card" onclick="this.classList.toggle('open')"><div class="icon">👀</div><b>That curiosity.</b><span>Tap to open</span><div class="note">You like surprises… and then immediately start asking questions. “Mujhe surprise pasand hai naaa!!!” — iconic behaviour. 😂</div></div>
+<div class="card" onclick="this.classList.toggle('open')"><div class="icon">🤌🏻</div><b>The way you show up.</b><span>Tap to open</span><div class="note">Whether it is work chaos, random late-night conversations, plans, photos, or just being there — it matters more than you probably realise.</div></div>
+</div>
+</div>
+</section>
+
+<section class="hidden">
+<div class="box">
+<div class="label">THE BIRTHDAY ARCHIVE</div>
+<h2>10 days. 10 moments. 📖</h2>
+<p>A tiny archive of the ridiculous little universe we've created around this birthday.</p>
+<div class="archive">
+<div><b>🎈</b>Chaos</div><div><b>😂</b>Laughs</div><div><b>👀</b>Curiosity</div>
+<div><b>📱</b>Random reels</div><div><b>🎶</b>Late nights</div><div><b>🤍</b>Good memories</div>
+</div>
+<p style="margin-top:25px">And honestly, the best part was never the countdown itself.<br><b>It was getting to make it for you.</b></p>
+</div>
+</section>
+
+<section class="hidden">
+<div class="box">
+<div class="label">READ THIS LAST</div>
+<h2>Okay. No jokes for a minute. 🤍</h2>
+<div class="letter">
+<p>You've genuinely become one of those people with whom even the most random conversations somehow become memories.</p>
+<p>From work chaos and “Chaapli” arguments to midnight calls, random reels, singing, plans that change seventeen times, and all the little nonsense in between — there has genuinely never been a dull moment. 😂</p>
+<p>And if there's one thing I want for you this year, it's that you get more of the things that make you genuinely happy. More adventures. More laughter. More spontaneous plans. More reasons to say “mast hai.” And fewer things that make you overthink. 😌</p>
+<p>You've said it yourself: <b>“You deserve everything, always.”</b> So today, I'm saying it back to you — <b>you deserve good things too. Always.</b> 🤍</p>
+<p>Now go enjoy your day. Eat something good, take too many photos, make questionable decisions, collect stories, and please continue being exactly the kind of person who can make even the most random plan sound like a good idea. 😂</p>
+<p class="sign">Happy Birthday, Navin. 🤍🎂<br>And yes… your countdown officially ends here.<br><strong>But I hope this is only the beginning of a really, really good year for you. 🫶🏻</strong></p>
+</div>
+</div>
+</section>
+
+<section class="hidden">
+<div class="box">
+<div class="label">ONE LAST THING</div>
+<h2>Make a wish. ✨</h2>
+<p>You've already made one on Day 5.<br>This one is mine for you.</p>
+<div class="wish">🎁 <b>Tap to reveal it.</b><br>
+<button class="btn" onclick="wish()">REVEAL THE WISH ✨</button>
+<div class="wishtext" id="w">May this year bring you the kind of happiness that feels effortless, the kind of people who feel like home, the courage to chase what you really want, and a whole lot of moments that make you stop and think — <b>“damn, life is good.”</b> 🤍</div>
+</div>
+</div>
+</section>
+
+<section class="final hidden">
+<div class="box">
+<div class="label">06 SEPTEMBER 2026</div>
+<h2>TODAY IS YOUR DAY. 🎂</h2>
+<p>Ten days ago, there were still nine days to go.<br>Now there is only one thing left to say.</p>
+<h2 style="font-size:clamp(34px,8vw,62px)">HAPPY BIRTHDAY!!! 🥳🎉</h2>
+<p>Here's to another year of becoming more you,<br>finding more reasons to smile,<br>and collecting stories worth telling.</p>
+<div class="signature">And yes… this entire countdown was just an elaborate way of saying:<br><b>HAPPY BIRTHDAY!!! 🥳🎉</b><br><br>Now go make today ridiculously memorable. 🤍</div>
+</div>
+</section>
+
+<script>
+function openAll(){
+document.querySelectorAll('.hidden').forEach(x=>x.classList.remove('hidden'));
+confetti();
+setTimeout(()=>document.querySelectorAll('section')[1].scrollIntoView({behavior:'smooth'}),500)
+}
+function note(t){document.getElementById('daynote').textContent=t}
+function wish(){document.getElementById('w').style.display='block';confetti()}
+function confetti(){
+for(let i=0;i<110;i++){
+let e=document.createElement('i');
+e.textContent=['✨','🎉','🎂','🥳','💫','🤍'][Math.floor(Math.random()*6)];
+e.style.cssText=`position:fixed;z-index:99;left:${Math.random()*100}vw;top:-30px;font-style:normal;font-size:${12+Math.random()*20}px;animation:f 2.7s linear forwards`;
+document.body.appendChild(e);setTimeout(()=>e.remove(),2800)
+}}
+const s=document.createElement('style');
+s.textContent='@keyframes f{to{transform:translateY(110vh) rotate(720deg);opacity:0}}';
+document.head.appendChild(s);
+</script>
+</body></html>
